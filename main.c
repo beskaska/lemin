@@ -13,7 +13,12 @@
 #include "lemin.h"
 #include <stdio.h>
 
-static void		del(void *node) {}
+static void		del(void *node)
+{
+	void	*tmp;
+
+	tmp = node;
+}
 
 static void	freeing(t_list *paths, t_list **graph, char **map, int size)
 {
@@ -23,7 +28,7 @@ static void	freeing(t_list *paths, t_list **graph, char **map, int size)
 	{
 		tmp = paths;
 		paths = paths->next;
-		ft_lstdel(&(tmp->content), del);
+		ft_lstdel((t_list**)(&tmp->content), del);
 		ft_lstdelone(tmp, del);
 	}
 	while (--size)
@@ -49,18 +54,40 @@ static void	calculate(int size, t_list *origin, int ants)
 	free origin
 	*/
 
+	// testing
+	origin = NULL;
+	map[0] = "start";
+	map[1] = "1";
+	map[2] = "2";
+	map[3] = "3";
+	map[4] = "4";
+	map[5] = "5";
+	map[6] = "6";
+	map[7] = "finish";
+	for (int i = 0; i < size + size - 2; i++)
+		graph[i] = NULL;
+	ft_lstadd(&graph[0], ft_lstnew((void*)1));
+	ft_lstadd(&graph[0], ft_lstnew((void*)3));
+	ft_lstadd(&graph[1], ft_lstnew((void*)2));
+	ft_lstadd(&graph[2], ft_lstnew((void*)7));
+	ft_lstadd(&graph[3], ft_lstnew((void*)4));
+	ft_lstadd(&graph[4], ft_lstnew((void*)5));
+	ft_lstadd(&graph[4], ft_lstnew((void*)9));
+	ft_lstadd(&graph[5], ft_lstnew((void*)6));
+	ft_lstadd(&graph[6], ft_lstnew((void*)11));
+	ft_lstadd(&graph[7], ft_lstnew((void*)8));
+	ft_lstadd(&graph[8], ft_lstnew((void*)9));
+	ft_lstadd(&graph[9], ft_lstnew((void*)10));
+	ft_lstadd(&graph[10], ft_lstnew((void*)13));
+	ft_lstadd(&graph[11], ft_lstnew((void*)12));
+	ft_lstadd(&graph[12], ft_lstnew((void*)13));
+	// testing
+
 	if (!(paths = dinic(graph, size + size - 2, ants, &flow)))
 		ft_putstr("ERROR\n");
 	else
 		print_answer(map, paths, ants, flow);
 	freeing(paths, graph, map, size);
-}
-
-void	temp(int size)
-{
-	t_list	*graph[size];
-
-	
 }
 
 int			main(void)
@@ -73,5 +100,11 @@ int			main(void)
 	// transform undirected graph to directed graph;
 	// remove dead ends;
 	// split each intermediate vertex into two vertices
+
+	// testing
+	origin = NULL;
+	ants = 6;
+	size = 8;
+	// testing
 	calculate(size, origin, ants);
 }

@@ -83,6 +83,7 @@ void		print_answer(char **map, t_list *paths, int ants, int flow)
 	int		cur_path;
 	int		cur_ant;
 
+	printf("In print answer\n"); //DEL
 	prepare(paths, way, flow);
 	sort_paths(way, flow);
 	front_ant = 0;
@@ -95,7 +96,8 @@ void		print_answer(char **map, t_list *paths, int ants, int flow)
 			if (ants - front_ant - way[cur_path]->lag > 0)
 			{
 				state[front_ant] = way[cur_path++]->begin;
-				print_move(front_ant, map[(int)state[front_ant++]->content / 2 + 1]);
+				print_move(front_ant, map[(int)state[front_ant]->content / 2 + 1]);
+				front_ant++;
 			}
 			else
 				flow = cur_path;

@@ -20,6 +20,7 @@
 # define MAX_NODES 10000
 
 # include "libft/libft.h"
+# include <stdio.h> // delete
 
 typedef struct	s_path
 {
@@ -30,6 +31,6 @@ typedef struct	s_path
 
 
 t_list			*dinic(t_list **graph, int size, int ants, int *flow);
-void			print_answer(t_list *origin, t_list *paths, int ants, int flow);
+void			print_answer(char **map, t_list *paths, int ants, int flow);
 
 #endif
