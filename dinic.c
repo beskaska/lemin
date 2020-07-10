@@ -60,28 +60,28 @@ static void		save_path(t_list **path, size_t v)
 	}
 }
 
-static t_list	*dfs(t_list **graph, size_t t, size_t v, int *level)
+static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 {
 	t_list	*cur;
 	t_list	*prev;
 	t_list	*path;
 
-	printf("in DFS: v = %zu, level[v] = %d\n", v, level[v]); // DEL
-	if (v == t)
+	printf("in DFS: v = %zu, level[v] = %d\n", (size_t)dad->content, level[(size_t)dad->content]); // DEL
+	if ((size_t)dad->content == t)
 		return ft_lstnew((void*)t);
-	cur = graph[v];
+	cur = graph[(size_t)dad->content];
 	prev = NULL;
 	while (cur)
 	{
-		if (level[(size_t)cur->content] == level[v] + 1
-		&& (path = dfs(graph, t, (size_t)cur->content, level)))
+		if (level[(size_t)cur->content] == level[(size_t)dad->content] + 1
+		&& (path = dfs(graph, cur, t, level)))
 		{
 			if (prev)
 				prev->next = cur->next;
 			else
-				graph[v] = cur->next;
-			ft_lstadd(&graph[(size_t)cur->content], cur);
-			save_path(&path, v);
+				graph[(size_t)dad->content] = cur->next;
+			ft_lstadd(&graph[(size_t)cur->content], dad);
+			save_path(&path, (size_t)dad->content);
 			return path;
 		}
 		prev = cur;
@@ -95,12 +95,28 @@ t_list			*dinic(t_list **graph, int size, int ants, int *flow)
 	int		level[size];
 	t_list	*path;
 	t_list	*paths;
+	t_list	*tmp; //DEL
+	t_list	*s; //DEL
 
 	*flow = 0;
 	paths = NULL;
+	s = ft_lstnew((void*)0);// DEL MEMORY LEAK
 	while (1)
 	{
 		printf("flow = %d\n", *flow); // DEL
+		// test
+			for (int i = 0; i < size; i++)
+			{
+				printf("%d: ", i);
+				tmp = graph[i];
+				while (tmp)
+				{
+					printf("%zu ", (size_t)tmp->content);
+					tmp = tmp->next;
+				}
+				printf("\n");
+			}
+			// test
 		level[0] = 0;
 		ft_memset(level + 1, NOT_VISITED, (size - 1) * sizeof(int));
 		if (!bfs(graph, size, level))
@@ -109,7 +125,7 @@ t_list			*dinic(t_list **graph, int size, int ants, int *flow)
 		{
 			printf("level[%d] = %d\n", i, level[i]); // DEL
 		}
-		while ((path = dfs(graph, size - 1, 0, level)))
+		while ((path = dfs(graph, s, size - 1, level)))
 		{
 			ft_lstadd(&paths, ft_lstnew(path));
 			if (++(*flow) == ants)
