@@ -20,9 +20,10 @@ static void	prepare(t_list *paths, t_path **way, int size)
 	i = 0;
 	while (i < size)
 	{
-		way[i]->begin = paths;
+		way[i] = (t_path*)malloc(sizeof(t_path*));
+		way[i]->begin = paths->content;
 		way[i]->length = 0;
-		cur = (t_list*)way[i]->begin->content;
+		cur = (t_list*)way[i]->begin;
 		while (cur)
 		{
 			++(way[i]->length);
@@ -41,7 +42,7 @@ static void	sort_paths(t_path **way, int size) // *** replace by quick sort
 	t_list	*cur;
 
 	i = 0;
-	way[i]->lag = 0; // may be separate
+	way[i]->lag = 0; // may be out of this function
 	while (i < size - 1)
 	{
 		j = size - 1;
@@ -58,11 +59,9 @@ static void	sort_paths(t_path **way, int size) // *** replace by quick sort
 			}
 			--j;
 		}
-		if (i) // may be separate
-			way[i]->lag = way[i - 1]->lag + (way[i]->length - way[i - 1]->length) * i; // may be separate
 		++i;
+		way[i]->lag = way[i - 1]->lag + (way[i]->length - way[i - 1]->length) * i; // may be out of this function
 	}
-	way[i]->lag = way[i - 1]->lag + (way[i]->length - way[i - 1]->length) * i; // may be separate
 }
 
 static void	print_move(int ant, char *room_name)
@@ -83,11 +82,10 @@ void		print_answer(char **map, t_list *paths, int ants, int flow)
 	int		cur_path;
 	int		cur_ant;
 
-	printf("In print answer\n"); //DEL
 	prepare(paths, way, flow);
 	sort_paths(way, flow);
-	front_ant = 0;
-	back_ant = 0;
+	front_ant = 1;
+	back_ant = 1;
 	while (back_ant < ants)
 	{
 		cur_path = 0;
@@ -111,4 +109,5 @@ void		print_answer(char **map, t_list *paths, int ants, int flow)
 			}
 		ft_putchar('\n');
 	}
+	// need to free way
 }

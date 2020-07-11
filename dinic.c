@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static int		bfs(t_list **graph, int size, int *level)
+static int		bfs(t_list **graph, size_t size, int *level)
 {
 	size_t	queue[size];
 	int		front;
@@ -39,13 +39,13 @@ static int		bfs(t_list **graph, int size, int *level)
 	return (level[size - 1] != NOT_VISITED);
 }
 
-static void		save_path(t_list **path, size_t v)
+static t_list	*save_path(t_list **path, size_t v)
 {
 	static t_list	*nodes[MAX_NODES];
 	static size_t	hot_node;
 
 	if (!v)
-		return ;
+		return (*path);
 	if (nodes[v])
 	{
 		if ((size_t)(*path)->content == hot_node)
@@ -58,6 +58,7 @@ static void		save_path(t_list **path, size_t v)
 		nodes[v] = *path;
 		hot_node = v;
 	}
+	return (*path);
 }
 
 static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
@@ -66,7 +67,6 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 	t_list	*prev;
 	t_list	*path;
 
-	printf("in DFS: v = %zu, level[v] = %d\n", (size_t)dad->content, level[(size_t)dad->content]); // DEL
 	if ((size_t)dad->content == t)
 		return ft_lstnew((void*)t);
 	cur = graph[(size_t)dad->content];
@@ -80,9 +80,9 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 				prev->next = cur->next;
 			else
 				graph[(size_t)dad->content] = cur->next;
-			ft_lstadd(&graph[(size_t)cur->content], dad);
-			save_path(&path, (size_t)dad->content);
-			return path;
+			ft_lstadd(&graph[(size_t)cur->content], cur);
+			cur->content = dad->content;
+			return (save_path(&path, (size_t)dad->content));
 		}
 		prev = cur;
 		cur = cur->next;
@@ -90,39 +90,20 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 	return (NULL);
 }
 
-t_list			*dinic(t_list **graph, int size, int ants, int *flow)
+t_list			*dinic(t_list **graph, size_t size, int ants, int *flow)
 {
 	int		level[size];
 	t_list	*path;
 	t_list	*paths;
-	t_list	*tmp; //DEL
 
 	*flow = 0;
 	paths = NULL;
 	while (1)
 	{
-		printf("flow = %d\n", *flow); // DEL
-		// test
-			for (int i = 0; i < size; i++)
-			{
-				printf("%d: ", i);
-				tmp = graph[i];
-				while (tmp)
-				{
-					printf("%zu ", (size_t)tmp->content);
-					tmp = tmp->next;
-				}
-				printf("\n");
-			}
-			// test
 		level[0] = 0;
 		ft_memset(level + 1, NOT_VISITED, (size - 1) * sizeof(int));
 		if (!bfs(graph, size, level))
 			return (paths);
-		for (int i = 0; i < size; i++)
-		{
-			printf("level[%d] = %d\n", i, level[i]); // DEL
-		}
 		while ((path = dfs(graph, graph[0], size - 1, level)))
 		{
 			ft_lstadd(&paths, ft_lstnew(path));

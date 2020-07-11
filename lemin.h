@@ -24,13 +24,13 @@
 
 typedef struct	s_path
 {
-	t_list	*begin;
-	int		length;
-	int		lag;
+	t_list	*begin; // the first node of the path
+	int		length; // amount of nodes in the path
+	int		lag; // length difference between current path and the first (shortest) path --- incorrect
 }				t_path;
 
 
-t_list			*dinic(t_list **graph, int size, int ants, int *flow);
+t_list			*dinic(t_list **graph, size_t size, int ants, int *flow);
 void			print_answer(char **map, t_list *paths, int ants, int flow);
 
 #endif

@@ -40,7 +40,7 @@ static void	freeing(t_list *paths, t_list **graph, char **map, int size)
 	free(map[size]);
 }
 
-static void	calculate(int size, t_list *origin, int ants)
+static void	calculate(size_t size, t_list *origin, int ants)
 {
 	char	*map[size];
 	t_list	*graph[size + size - 2];
@@ -64,7 +64,7 @@ static void	calculate(int size, t_list *origin, int ants)
 	map[5] = "5";
 	map[6] = "6";
 	map[7] = "finish";
-	for (int i = 0; i < size + size - 2; i++)
+	for (size_t i = 0; i < size + size - 2; i++)
 		graph[i] = NULL;
 	ft_lstadd(&graph[0], ft_lstnew((void*)1));
 	ft_lstadd(&graph[0], ft_lstnew((void*)3));
@@ -87,13 +87,13 @@ static void	calculate(int size, t_list *origin, int ants)
 	if (!(paths = dinic(graph, size + size - 2, ants, &flow)))
 		ft_putstr("ERROR\n");
 	else
-		print_answer(map, paths, ants, flow);
+		print_answer(map, paths, ants + 1, flow);
 	freeing(paths, graph, map, size);
 }
 
 int			main(void)
 {
-	int		size;
+	size_t	size;
 	int		ants;
 	t_list	*origin; // RB-tree or AVL-tree will be faster ~O(log(n))
 
@@ -104,7 +104,7 @@ int			main(void)
 
 	// testing
 	origin = NULL;
-	ants = 6;
+	ants = 2;
 	size = 8;
 	// testing
 	calculate(size, origin, ants);
