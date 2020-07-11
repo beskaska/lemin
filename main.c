@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:06 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/09 17:54:28 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/11 11:25:22 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static void	calculate(int size, t_list *origin, int ants)
 		graph[i] = NULL;
 	ft_lstadd(&graph[0], ft_lstnew((void*)1));
 	ft_lstadd(&graph[0], ft_lstnew((void*)3));
+	ft_lstadd(&graph[0], ft_lstnew((void*)0));
 	ft_lstadd(&graph[1], ft_lstnew((void*)2));
 	ft_lstadd(&graph[2], ft_lstnew((void*)7));
 	ft_lstadd(&graph[3], ft_lstnew((void*)4));

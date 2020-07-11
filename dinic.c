@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 10:14:19 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/08 17:58:01 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/11 11:26:18 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,9 @@ t_list			*dinic(t_list **graph, int size, int ants, int *flow)
 	t_list	*path;
 	t_list	*paths;
 	t_list	*tmp; //DEL
-	t_list	*s; //DEL
 
 	*flow = 0;
 	paths = NULL;
-	s = ft_lstnew((void*)0);// DEL MEMORY LEAK
 	while (1)
 	{
 		printf("flow = %d\n", *flow); // DEL
@@ -125,7 +123,7 @@ t_list			*dinic(t_list **graph, int size, int ants, int *flow)
 		{
 			printf("level[%d] = %d\n", i, level[i]); // DEL
 		}
-		while ((path = dfs(graph, s, size - 1, level)))
+		while ((path = dfs(graph, graph[0], size - 1, level)))
 		{
 			ft_lstadd(&paths, ft_lstnew(path));
 			if (++(*flow) == ants)
