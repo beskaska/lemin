@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:58 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/12 22:20:05 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/13 19:00:31 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_path
 }				t_path;
 
 int				parsing(t_list *origin, size_t *size, int *ants);
+int		        parse_rooms(t_list **origin, t_list *lines, char **line);
 t_list			*dinic(t_list **graph, size_t size, int ants, int *flow);
 void			print_answer(char **map, t_list *paths, int ants, int flow);
 
