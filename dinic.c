@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 10:14:19 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/11 11:26:18 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/12 21:20:26 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ static int		bfs(t_list **graph, size_t size, int *level)
 
 static t_list	*save_path(t_list **path, size_t v)
 {
-	static t_list	*nodes[MAX_NODES];
+	static t_list	*nodes[MAX_ROOMS + MAX_ROOMS];
 	static size_t	hot_node;
+	t_list			*tmp;
 
 	if (!v)
 		return (*path);
@@ -54,7 +55,9 @@ static t_list	*save_path(t_list **path, size_t v)
 	}
 	else
 	{
-		ft_lstadd(path, ft_lstnew((void*)v));
+		if (!(tmp = ft_lstnew((void*)v)))
+			return (NULL);
+		ft_lstadd(path, tmp);
 		nodes[v] = *path;
 		hot_node = v;
 	}
@@ -98,15 +101,17 @@ t_list			*dinic(t_list **graph, size_t size, int ants, int *flow)
 
 	*flow = 0;
 	paths = NULL;
+	level[0] = 0;
 	while (1)
 	{
-		level[0] = 0;
 		ft_memset(level + 1, NOT_VISITED, (size - 1) * sizeof(int));
 		if (!bfs(graph, size, level))
 			return (paths);
 		while ((path = dfs(graph, graph[0], size - 1, level)))
 		{
-			ft_lstadd(&paths, ft_lstnew(path));
+			if (!(path = ft_lstnew(path)))
+				return (NULL);
+			ft_lstadd(&paths, path);
 			if (++(*flow) == ants)
 				return (paths);
 		}

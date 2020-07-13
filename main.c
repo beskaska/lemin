@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:06 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/11 11:25:22 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/12 16:34:52 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 
 static void		del(void *node)
 {
-	void	*tmp;
-
-	tmp = node;
+	node = NULL;
 }
 
 static void	freeing(t_list *paths, t_list **graph, char **map, int size)
@@ -97,14 +95,15 @@ int			main(void)
 	int		ants;
 	t_list	*origin; // RB-tree or AVL-tree will be faster ~O(log(n))
 
-	// parsing;
+	if (!parsing(origin, size, ants))
+		return (0); // ERROR
 	// transform undirected graph to directed graph;
 	// remove dead ends;
 	// split each intermediate vertex into two vertices
 
 	// testing
 	origin = NULL;
-	ants = 2;
+	ants = 4;
 	size = 8;
 	// testing
 	calculate(size, origin, ants);
