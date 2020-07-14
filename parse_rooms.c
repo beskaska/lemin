@@ -6,15 +6,17 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 18:59:35 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/13 19:04:01 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/14 13:54:57 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static int      freeing()
+static int      freeing(t_list *start_room, t_list *end_room, char *line)
 {
-
+	free(start_room);
+	free(end_room);
+	free(line);
     return (0);
 }
 
@@ -22,7 +24,11 @@ static t_list	*get_new_room(char *line)
 {
 	t_room	*room;
 	t_list	*tmp;
+	char	*sep_1;
+	char	*sep_2;
 
+	if (!(sep_1 = ft_strchr(*line, ' ')) || !(sep_2 = ft_strchr(*sep_1, ' ')))
+		return (NULL);
 	if (!(room = (t_room*)malloc(sizeof(t_room*))))
 		return (NULL);
 	room->name = line;
@@ -50,6 +56,7 @@ int		        parse_rooms(t_list **origin, t_list *lines, char **line)
 	t_list	*end_room;
 	t_list	*back;
 	t_list	*tmp;
+	char	*separator;
 	int		size;
 
 	start_room = NULL;
@@ -63,22 +70,22 @@ int		        parse_rooms(t_list **origin, t_list *lines, char **line)
 			&& (start_room || !(start_room = get_border_room(&lines, line))))
 			|| (ft_strcmp(END_ROOM, *line) == 0
 			&& (end_room || !(end_room = get_border_room(&lines, line)))))
-				return (0); // free line, lines, start_room, end_room and origin
+				return (freeing(start_room, end_room, *line)); // free lines and origin
 		}
 		else
 		{
 			if (*line[0] == 'L' || !(tmp = get_new_room(*line)))
-				return (0); // free line, lines, start_room, end_room and origin
+				return (freeing(start_room, end_room, *line)); // free lines and origin
 			ft_lstadd(origin, tmp);
 			++size;
 		}
 		if (!(tmp = ft_lstnew(*line)))
-			return (NULL); // free line, lines, start_room, end_room and origin
+			return (freeing(start_room, end_room, *line)); // free lines and origin
 		ft_lstadd_back(&lines, tmp);
 		lines = lines->next;
 	}
 	if (!start_room || !end_room)
-		return (0); // free lines, start_room, end_room and origin
+		return (freeing(start_room, end_room, *line)); // free lines and origin
 	ft_lstadd(origin, start_room);
 	ft_lstadd_back(origin, end_room); // not efficient
 	return (size + 2);
