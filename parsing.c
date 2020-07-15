@@ -6,18 +6,24 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:58:14 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/13 19:04:00 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/15 19:56:01 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static int		freeing(t_list *lines)
+static void		del()
 {
 	
 }
 
-int				parsing(t_list *origin, size_t *size, int *ants)
+static int		freeing(t_list *lines, t_list *origin)
+{
+	ft_lstdel(&lines, del);
+	
+}
+
+int				parsing(t_list *origin, size_t *size, int *ants) // may be return origin???
 {
 	t_list	*lines;
 	char	*line;

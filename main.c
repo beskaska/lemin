@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:06 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/12 16:34:52 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/15 21:35:29 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int			main(void)
 	int		ants;
 	t_list	*origin; // RB-tree or AVL-tree will be faster ~O(log(n))
 
+	origin = NULL;
 	if (!parsing(origin, size, ants))
 		return (0); // ERROR
 	// transform undirected graph to directed graph;
@@ -102,7 +103,6 @@ int			main(void)
 	// split each intermediate vertex into two vertices
 
 	// testing
-	origin = NULL;
 	ants = 4;
 	size = 8;
 	// testing

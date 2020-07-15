@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:58 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/13 19:00:31 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/15 19:42:21 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 typedef struct s_room
 {
 	char	*name;
+	char	*sep; // point to the first space charachter after room name
 	t_list	*neighbors;
 }				t_room;
 

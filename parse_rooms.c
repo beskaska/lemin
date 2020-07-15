@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 18:59:35 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/14 13:54:57 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/15 19:55:04 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static int      freeing(t_list *start_room, t_list *end_room, char *line)
 {
+	free(start_room->content);
 	free(start_room);
+	free(end_room->content);
 	free(end_room);
 	free(line);
     return (0);
@@ -31,9 +33,10 @@ static t_list	*get_new_room(char *line)
 		return (NULL);
 	if (!(room = (t_room*)malloc(sizeof(t_room*))))
 		return (NULL);
-	room->name = line;
 	if (!(tmp = ft_lstnew(room)))
 		free(room);
+	room->name = line;
+	room->sep = sep_1;
 	return (tmp);
 }
 
@@ -62,7 +65,7 @@ int		        parse_rooms(t_list **origin, t_list *lines, char **line)
 	start_room = NULL;
 	end_room = NULL;
 	size = 0;
-	while (get_next_line(STDOUT_FILENO, line) > 0) // need to be distinguished from links
+	while (get_next_line(STDOUT_FILENO, line) > 0)
 	{
 		if (*line[0] == '#')
 		{
