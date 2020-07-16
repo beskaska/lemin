@@ -12,15 +12,15 @@
 
 #include "lemin.h"
 
-static void		del()
+static void		del(void *node)
 {
-	
+	free(node);
 }
 
 static int		freeing(t_list *lines, t_list *origin)
 {
 	ft_lstdel(&lines, del);
-	
+	ft_lstdel(&origin, del);
 }
 
 int				parsing(t_list *origin, size_t *size, int *ants) // may be return origin???
