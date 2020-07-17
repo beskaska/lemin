@@ -21,6 +21,21 @@ static int		freeing(t_list *lines, t_list *origin)
 {
 	ft_lstdel(&lines, del);
 	ft_lstdel(&origin, del);
+	return (0);
+}
+
+
+
+int				parse_links(t_list *origin, t_list *lines, char **line)
+{
+	while (*line)
+	{
+		// add the line to the lines
+		if (line[0] != '#' && !check_link(origin, *line))
+			return (0);
+		get_next_line(STDOUT_FILENO, line);
+	}
+	return (1);
 }
 
 int				parsing(t_list *origin, size_t *size, int *ants) // may be return origin???
@@ -35,6 +50,6 @@ int				parsing(t_list *origin, size_t *size, int *ants) // may be return origin?
 		return (0); // free(line)
 	origin = NULL;
 	if (!(*size = parse_rooms(&origin, lines, &line)))
-		return (0); // free lines, origin
+		return (freeing(lines, origin));
 	
 }
