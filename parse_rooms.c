@@ -14,12 +14,18 @@
 
 static int      freeing(t_list *start_room, t_list *end_room, char *line)
 {
-	free(start_room->content);
-	free(start_room);
-	free(end_room->content);
-	free(end_room);
+	if (start_room)
+	{
+		free(start_room->content);
+		free(start_room);
+	}
+	if (end_room)
+	{
+		free(end_room->content);
+		free(end_room);
+	}
 	free(line);
-    return (0);
+	return (0);
 }
 
 static t_list	*get_new_room(char *line)
