@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 10:14:19 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 22:29:54 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/07 20:58:03 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 	t_list	*path;
 
 	if ((size_t)dad->content == t)
-		return ft_lstnew((void*)t);
+		return (ft_lstnew((void*)t));
 	cur = graph[(size_t)dad->content];
 	prev = NULL;
 	while (cur)
 	{
 		if ((level[(size_t)cur->content] == level[(size_t)dad->content] + 1
-		|| (size_t)dad->content == t) && (path = dfs(graph, cur, t, level)))
+		|| (size_t)cur->content == t) && (path = dfs(graph, cur, t, level)))
 		{
 			if (prev)
 				prev->next = cur->next;

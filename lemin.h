@@ -6,14 +6,14 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:58 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 20:23:40 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/07 19:27:21 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEMIN_H
 # define LEMIN_H
 
-# define MAX_ROOMS 20000
+# define MAX_ROOMS 100000
 # define NOT_VISITED -1
 # define START_ROOM "##start"
 # define END_ROOM "##end"
@@ -25,7 +25,7 @@
 # include "libft/libft.h"
 # include <stdio.h> // delete
 
-typedef struct s_room
+typedef struct	s_room
 {
 	char	*name;
 	t_list	*neighbors;
@@ -43,7 +43,7 @@ typedef struct	s_path
 }				t_path;
 
 t_list			*parsing(t_list **lines, size_t *size, int *ants);
-int		        parse_rooms(t_list **origin, t_list *lines, char **line);
+int				parse_rooms(t_list **origin, t_list *lines);
 int				parse_links(t_list *origin, t_list *lines, char **line);
 int				save_original_line(t_list **lines, char *line);
 void			evaluate(t_list *origin, t_list *lines, size_t size, int ants);

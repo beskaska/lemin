@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:58:14 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 20:18:22 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/07 19:53:03 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,10 @@ static void		del_room(void *node)
 	free(node);
 }
 
-static void		freeing(t_list *lines, t_list *origin)
-{
-	ft_lstdel(&lines, free);
-	ft_lstdel(&origin, del_room);
-}
-
 static int		is_valid(char *s1, char *s2)
 {
 	int		res;
-	
+
 	res = ft_strcmp(s1, s2);
 	free(s1);
 	return (!res);
@@ -57,14 +51,11 @@ t_list			*parsing(t_list **lines, size_t *size, int *ants)
 		return (NULL);
 	if ((*ants = ft_atoi(line)) <= 0 || !is_valid(ft_itoa(*ants), line)
 	|| !(*lines = ft_lstnew(line)))
-	{
 		free(line);
-		return (NULL);
-	}
-	if (!(*size = parse_rooms(&origin, *lines, &line)))
+	else if (!(*size = parse_rooms(&origin, *lines)))
 	{
-		freeing(*lines, origin);
-		return (NULL);
+		ft_lstdel(lines, free);
+		ft_lstdel(&origin, del_room);
 	}
 	return (origin);
 }

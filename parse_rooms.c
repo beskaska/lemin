@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 18:59:35 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 19:17:07 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/07 19:28:58 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int		is_valid_room(t_list **origin, char *line)
 	char	*sep2;
 
 	room = (*origin)->content;
-	if (!(sep1 = ft_strchr(line, ' ')) || !(sep2 = ft_strchr(sep1 + 1, ' ')))
+	if (!(sep1 = ft_strchr(line, ' '))
+	|| !(sep2 = ft_strchr(sep1 + 1, ' ')))
 	{
 		free(room);
 		tmp = *origin;
@@ -40,62 +41,62 @@ static int		is_valid_room(t_list **origin, char *line)
 
 static t_list	*set_new_room(t_list **origin, char *line, int order, char type)
 {
-	t_room	*room;
 	t_list	*tmp;
 
-	if (!(room = (t_room*)malloc(sizeof(t_room))))
+	if (!(tmp = ft_lstnew(NULL)))
 		return (NULL);
-	room->name = line;
-	room->neighbors = NULL;
-	room->order = order;
-	room->type = type;
-	if (!(tmp = ft_lstnew(room)))
-	{
-		free(room);
-		return (NULL);
-	}
 	ft_lstadd(origin, tmp);
+	if (!(tmp->content = (t_room*)malloc(sizeof(t_room))))
+		return (NULL);
+	((t_room*)tmp->content)->name = line;
+	((t_room*)tmp->content)->neighbors = NULL;
+	((t_room*)tmp->content)->order = order;
+	((t_room*)tmp->content)->type = type;
 	return (tmp);
 }
 
-static t_list	*set_border_room(t_list **origin, t_list **lines, char *line, char type)
+static t_list	*set_border_room(t_list **origin, t_list **lines,
+					char *line, char type)
 {
 	if (get_next_line(STDIN_FILENO, &line) <= 0)
 		return (NULL);
 	if (!save_original_line(lines, line))
 		return (NULL);
-	if (!set_new_room(origin, line, SOURCE, type) || !is_valid_room(origin, line))
+	if (!set_new_room(origin, line, SOURCE, type)
+	|| !is_valid_room(origin, line))
 		return (NULL);
 	return (*origin);
 }
 
-int				parse_rooms(t_list **origin, t_list *lines, char **line)
+int				parse_rooms(t_list **origin, t_list *lines)
 {
 	t_list	*start_room;
 	t_list	*end_room;
+	char	*line;
 	int		size;
 
+	line = NULL;
 	start_room = NULL;
 	end_room = NULL;
 	size = 0;
-	while (get_next_line(STDIN_FILENO, line) > 0)
+	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
-		if (!save_original_line(&lines, *line))
+		if (!save_original_line(&lines, line))
 			return (0);
-		if (*line[0] != '#')
+		if (line[0] != '#')
 		{
-			if (*line[0] == 'L' || !set_new_room(origin, *line, ++size, INTERMEDIATE))
+			if (line[0] == 'L' || !set_new_room(origin, line, ++size, INTERMEDIATE))
 				return (0);
-			if (!is_valid_room(origin, *line))
-				break ;
+			if (!is_valid_room(origin, line))
+				break ; //return parse_links
 		}
-		else if ((ft_strcmp(START_ROOM, *line) == 0 && (start_room
-		|| !(start_room = set_border_room(origin, &lines, *line, SOURCE))))
-		|| (ft_strcmp(END_ROOM, *line) == 0 && (end_room
-		|| !(end_room = set_border_room(origin, &lines, *line, SINK)))))
+		else if ((ft_strcmp(START_ROOM, line) == 0 && (start_room
+		|| !(start_room = set_border_room(origin, &lines, line, SOURCE))))
+		|| (ft_strcmp(END_ROOM, line) == 0 && (end_room
+		|| !(end_room = set_border_room(origin, &lines, line, SINK)))))
 			return (0);
 	}
-	if (!start_room || !end_room || !parse_links(*origin, lines, line))
+	if (!start_room || !end_room || !parse_links(*origin, lines, &line))
 		return (0);
 	((t_room*)end_room->content)->order = size + 1;
 	return (size + 2);

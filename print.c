@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 21:18:59 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/22 23:02:05 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/07 20:12:55 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,14 @@ static void	sort_paths(t_path **way, int *length, int size) // *** replace by qu
 			}
 			--j;
 		}
-		if (i)
-			way[i]->lag = (way[i - 1]->lag + (length[i] - length[i - 1]) * i) / 2;
 		++i;
 	}
-	if (i)
+	i = 0;
+	while (++i < size)
 		way[i]->lag = (way[i - 1]->lag + (length[i] - length[i - 1]) * i) / 2;
 }
 
-static int	prepare(t_list *paths, t_path **way, int *size)
+static int	prepare_paths(t_list *paths, t_path **way, int *size)
 {
 	t_list	*cur;
 	int		length[*size];
@@ -81,13 +80,14 @@ void		move_ants_on_way(t_list **state, char **map, int *back, int front)
 	cur_ant = *back - 1;
 	ft_putchar('\n');
 	while (++cur_ant < front && !state[cur_ant]->next)
-			++(*back);
+		++(*back);
 	while (cur_ant < front)
 	{
 		if (state[cur_ant]->next)
 		{
 			state[cur_ant] = state[cur_ant]->next->next;
 			print_move(cur_ant, map, state);
+			//printf("L%d-%s ", cur_ant, map[(int)state[cur_ant]->content / 2 + 1]); and everywhere
 		}
 		++cur_ant;
 	}
@@ -125,7 +125,7 @@ void		print_answer(char **map, t_list *paths, int ants, int flow)
 {
 	t_path	*way[flow];
 
-	if (!prepare(paths, way, &flow))
+	if (!prepare_paths(paths, way, &flow))
 		ft_putstr("ERROR\n");
 	else
 		move_ants(map, way, ants, &flow);

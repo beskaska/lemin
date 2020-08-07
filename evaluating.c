@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 19:59:27 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/22 23:03:15 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/07 19:10:49 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void		evaluate(t_list *origin, t_list *lines, size_t size, int ants)
 	int		flow;
 
 	paths = NULL;
-
 	if (!make_graph(origin, map, graph, size)
 	|| !(paths = dinic(graph, size + size - 2, ants, &flow)))
 	{
