@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 10:14:19 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/12 21:20:26 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/20 22:29:54 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 	prev = NULL;
 	while (cur)
 	{
-		if (level[(size_t)cur->content] == level[(size_t)dad->content] + 1
-		&& (path = dfs(graph, cur, t, level)))
+		if ((level[(size_t)cur->content] == level[(size_t)dad->content] + 1
+		|| (size_t)dad->content == t) && (path = dfs(graph, cur, t, level)))
 		{
 			if (prev)
 				prev->next = cur->next;
@@ -101,13 +101,13 @@ t_list			*dinic(t_list **graph, size_t size, int ants, int *flow)
 
 	*flow = 0;
 	paths = NULL;
-	level[0] = 0;
+	level[SOURCE] = 0;
 	while (1)
 	{
 		ft_memset(level + 1, NOT_VISITED, (size - 1) * sizeof(int));
 		if (!bfs(graph, size, level))
 			return (paths);
-		while ((path = dfs(graph, graph[0], size - 1, level)))
+		while ((path = dfs(graph, graph[SOURCE], size - 1, level)))
 		{
 			if (!(path = ft_lstnew(path)))
 				return (NULL);

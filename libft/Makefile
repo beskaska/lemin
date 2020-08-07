@@ -6,7 +6,7 @@
 #    By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 21:18:08 by aimelda           #+#    #+#              #
-#    Updated: 2020/07/01 19:43:54 by aimelda          ###   ########.fr        #
+#    Updated: 2020/07/20 13:44:21 by aimelda          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,7 @@ SRC		=	ft_memset.c			\
 			ft_min.c			\
 			ft_isspace.c		\
 			ft_sqrt.c			\
+			ft_swap.c			\
 			get_next_line.c		\
 
 OBJ		=	$(SRC:.c=.o)

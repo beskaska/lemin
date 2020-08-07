@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:44:50 by aimelda           #+#    #+#             */
-/*   Updated: 2020/06/22 14:18:15 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/20 01:42:24 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static int		is_eol(char **line, char *buf, t_list **fd_lst, int fd)
 	int		ret;
 
 	ret = 0;
-	str = buf;
-	if ((str = ft_strchr(str, '\n')))
+	if ((str = ft_strchr(buf, '\n')))
 	{
 		ret = 1;
 		*(str++) = '\0';

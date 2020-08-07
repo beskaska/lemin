@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 20:40:47 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/18 00:45:15 by aimelda          ###   ########.fr       */
+/*   Created: 2020/07/20 13:41:18 by aimelda           #+#    #+#             */
+/*   Updated: 2020/07/20 14:03:27 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstdelone(t_list *alst, void (*del)(void *))
+void	ft_swap(void *a, void *b, size_t size)
 {
-	if (del)
-		del(alst->content);
-	free(alst);
+	unsigned char	*ptr1;
+	unsigned char	*ptr2;
+	unsigned char	tmp;
+	size_t			i;
+
+	ptr1 = a;
+	ptr2 = b;	
+	i = 0;
+	while (i < size)
+	{
+		tmp = ptr1[i];
+		ptr1[i] = ptr2[i];
+		ptr2[i] = tmp;
+		++i;
+	}
 }

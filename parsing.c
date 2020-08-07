@@ -6,50 +6,65 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:58:14 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/15 19:56:01 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/07/20 20:18:22 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static void		del(void *node)
+int				save_original_line(t_list **lines, char *line)
 {
-	free(node);
-}
+	t_list	*new_line;
 
-static int		freeing(t_list *lines, t_list *origin)
-{
-	ft_lstdel(&lines, del);
-	ft_lstdel(&origin, del);
-	return (0);
-}
-
-
-
-int				parse_links(t_list *origin, t_list *lines, char **line)
-{
-	while (*line)
+	if (!(new_line = ft_lstnew(line)))
 	{
-		// add the line to the lines
-		if (line[0] != '#' && !check_link(origin, *line))
-			return (0);
-		get_next_line(STDOUT_FILENO, line);
+		free(line);
+		return (0);
 	}
+	ft_lstadd_back(lines, new_line);
+	*lines = (*lines)->next;
 	return (1);
 }
 
-int				parsing(t_list *origin, size_t *size, int *ants) // may be return origin???
+static void		del_room(void *node)
 {
-	t_list	*lines;
+	ft_lstdel(&((t_room*)node)->neighbors, NULL);
+	free(node);
+}
+
+static void		freeing(t_list *lines, t_list *origin)
+{
+	ft_lstdel(&lines, free);
+	ft_lstdel(&origin, del_room);
+}
+
+static int		is_valid(char *s1, char *s2)
+{
+	int		res;
+	
+	res = ft_strcmp(s1, s2);
+	free(s1);
+	return (!res);
+}
+
+t_list			*parsing(t_list **lines, size_t *size, int *ants)
+{
+	t_list	*origin;
 	char	*line;
 
-	if (get_next_line(STDOUT_FILENO, &line) <= 0 || (*ants = ft_atoi(line)) <= 0
-	|| ft_strcmp(ft_itoa(ants), line))
-		return (0); // free(line)
-	if (!(lines = ft_lstnew(line)))
-		return (0); // free(line)
 	origin = NULL;
-	if (!(*size = parse_rooms(&origin, lines, &line)))
-		return (freeing(lines, origin));
-	
+	if (get_next_line(STDIN_FILENO, &line) <= 0)
+		return (NULL);
+	if ((*ants = ft_atoi(line)) <= 0 || !is_valid(ft_itoa(*ants), line)
+	|| !(*lines = ft_lstnew(line)))
+	{
+		free(line);
+		return (NULL);
+	}
+	if (!(*size = parse_rooms(&origin, *lines, &line)))
+	{
+		freeing(*lines, origin);
+		return (NULL);
+	}
+	return (origin);
 }
