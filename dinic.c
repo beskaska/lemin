@@ -6,13 +6,13 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 10:14:19 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/07 20:58:03 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/22 18:53:33 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-static int		bfs(t_list **graph, size_t size, int *level)
+static int		bfs(t_list **graph, size_t size, int *pred)
 {
 	size_t	queue[size];
 	int		front;
@@ -21,22 +21,22 @@ static int		bfs(t_list **graph, size_t size, int *level)
 
 	back = 0;
 	front = 0;
-	queue[back++] = 0;
+	queue[back++] = SOURCE;
 	while (front < back)
 	{
 		cur = graph[queue[front]];
 		while (cur)
 		{
-			if (level[(size_t)cur->content] < 0)
+			if (pred[(size_t)cur->content] == NOT_VISITED)
 			{
 				queue[back++] = (size_t)cur->content;
-				level[(size_t)cur->content] = level[queue[front]] + 1;
+				pred[(size_t)cur->content] = (int)queue[front];
 			}
 			cur = cur->next;
 		}
 		++front;
 	}
-	return (level[size - 1] != NOT_VISITED);
+	return (pred[size - 1] != NOT_VISITED);
 }
 
 static t_list	*save_path(t_list **path, size_t v)
@@ -64,7 +64,7 @@ static t_list	*save_path(t_list **path, size_t v)
 	return (*path);
 }
 
-static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
+static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *pred)
 {
 	t_list	*cur;
 	t_list	*prev;
@@ -76,8 +76,8 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 	prev = NULL;
 	while (cur)
 	{
-		if ((level[(size_t)cur->content] == level[(size_t)dad->content] + 1
-		|| (size_t)cur->content == t) && (path = dfs(graph, cur, t, level)))
+		if ((size_t)pred[(size_t)cur->content] == (size_t)dad->content
+		&& (path = dfs(graph, cur, t, pred)))
 		{
 			if (prev)
 				prev->next = cur->next;
@@ -95,19 +95,19 @@ static t_list	*dfs(t_list **graph, t_list *dad, size_t t, int *level)
 
 t_list			*dinic(t_list **graph, size_t size, int ants, int *flow)
 {
-	int		level[size];
+	int		pred[size];
 	t_list	*path;
 	t_list	*paths;
 
 	*flow = 0;
 	paths = NULL;
-	level[SOURCE] = 0;
+	pred[SOURCE] = MAX_ROOMS + MAX_ROOMS;
 	while (1)
 	{
-		ft_memset(level + 1, NOT_VISITED, (size - 1) * sizeof(int));
-		if (!bfs(graph, size, level))
+		ft_memset(pred + 1, NOT_VISITED, (size - 1) * sizeof(*pred));
+		if (!bfs(graph, size, pred))
 			return (paths);
-		while ((path = dfs(graph, graph[SOURCE], size - 1, level)))
+		while ((path = dfs(graph, graph[SOURCE], size - 1, pred)))
 		{
 			if (!(path = ft_lstnew(path)))
 				return (NULL);

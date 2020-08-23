@@ -6,11 +6,24 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 18:59:35 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/07 19:28:58 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/22 16:35:57 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+static int		is_valid(char *s1, int c)
+{
+	int		res;
+	char	*s2;
+
+	if (c < 0)
+		return (0);
+	s2 = ft_itoa(c);
+	res = ft_strcmp(s1, s2);
+	free(s2);
+	return (!res);
+}
 
 static int		is_valid_room(t_list **origin, char *line)
 {
@@ -32,10 +45,10 @@ static int		is_valid_room(t_list **origin, char *line)
 	room->name_len = sep1 - line;
 	room->x = ft_atoi(++sep1);
 	room->y = ft_atoi(++sep2);
-	/*(sep2 - 1) = '\0';
-	if (ft_strcmp(sep1, ft_itoa(room->x)) || ft_strcmp(sep2, ft_itoa(room->y)))
-		return (NULL); // leaks and not correct
-	*(sep2 - 1) = ' ';*/
+	*(sep2 - 1) = '\0';
+	if (!is_valid(sep1, room->x) || !is_valid(sep2, room->y))
+		return (0);
+	*(sep2 - 1) = ' ';
 	return (1);
 }
 

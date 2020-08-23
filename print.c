@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/08 21:18:59 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/07 20:12:55 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/14 18:49:09 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	sort_paths(t_path **way, int *length, int size) // *** replace by qu
 	}
 	i = 0;
 	while (++i < size)
-		way[i]->lag = (way[i - 1]->lag + (length[i] - length[i - 1]) * i) / 2;
+		way[i]->lag = way[i - 1]->lag + (length[i] - length[i - 1]) * i;
 }
 
 static int	prepare_paths(t_list *paths, t_path **way, int *size)
@@ -57,6 +57,7 @@ static int	prepare_paths(t_list *paths, t_path **way, int *size)
 			++length[i];
 			cur = cur->next;
 		}
+		length[i] = length[i] / 2 + 1; // is it necessary?
 		paths = paths->next;
 		++i;
 	}
@@ -110,7 +111,7 @@ void		move_ants(char **map, t_path **way, int ants, int *flow)
 		move_ants_on_way(state, map, &back_ant, front_ant);
 		cur = 0;
 		while (front_ant < ants && cur < *flow)
-			if (ants - front_ant - way[cur]->lag >= 0)
+			if (ants - front_ant >= way[cur]->lag)
 			{
 				state[front_ant] = way[cur++]->begin;
 				print_move(front_ant++, map, state);

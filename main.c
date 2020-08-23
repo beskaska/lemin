@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 09:57:06 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/07 19:34:08 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/22 18:55:05 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	print_input(void *line)
 
 int			main(void)
 {
-	t_list	*origin; // RB-tree or AVL-tree will be faster ~O(log(n))
+	t_list	*origin;
 	t_list	*lines;
 	size_t	size;
 	int		ants;
