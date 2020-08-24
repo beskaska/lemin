@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 18:13:27 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/23 19:57:11 by aimelda          ###   ########.fr       */
+/*   Created: 2019/09/10 21:16:24 by aimelda           #+#    #+#             */
+/*   Updated: 2020/08/24 15:10:03 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+char	*ft_strnew(size_t size)
 {
-	if (s)
-		write(fd, s, ft_strlen(s));
+	if (size + 1 == 0)
+	{
+		ft_putendl_fd("Err: Maximum length of string exceeded", STDERR_FILENO);
+		return (NULL);
+	}
+	return ((char*)ft_memalloc(size + 1));
 }

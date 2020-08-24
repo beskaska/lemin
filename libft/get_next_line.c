@@ -6,11 +6,19 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:44:50 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 01:42:24 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 14:00:46 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/*
+** The function returns:
+** -1	- if an error has happened
+** 0	- if the reading has been completed
+** 1	- if a line has been read and the line terminates with EOL
+** 2	- if a line has been read and the line terminates with EOF
+*/
 
 static void		del(void *st)
 {
@@ -110,7 +118,9 @@ int				get_next_line(const int fd, char **line)
 			if ((ret = is_eol(line, buf, &fd_list, fd)))
 				break ;
 		}
-	if ((!ret && **line != '\0') || ret == 1)
+	if (!ret && **line != '\0')
+		return (2);
+	if (ret == 1)
 		return (1);
 	free(*line);
 	*line = NULL;

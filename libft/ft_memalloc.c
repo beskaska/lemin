@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 18:13:27 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/23 19:57:11 by aimelda          ###   ########.fr       */
+/*   Created: 2019/09/10 20:20:16 by aimelda           #+#    #+#             */
+/*   Updated: 2020/02/16 19:04:56 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+void	*ft_memalloc(size_t size)
 {
-	if (s)
-		write(fd, s, ft_strlen(s));
+	char	*mem;
+
+	mem = malloc(size);
+	if (mem)
+		ft_bzero(mem, size);
+	return ((void*)mem);
 }

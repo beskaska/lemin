@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 19:59:27 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/14 18:44:17 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 12:48:41 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	make_graph(t_list *origin, char **map, t_list **graph, size_t size)
 	while (room)
 	{
 		cur = (t_room*)room->content;
-		if (cur->type == INTERMEDIATE
+		if (cur->type == MEDIUM
 		&& !save_links(graph, cur->neighbors, cur->order + cur->order - 1))
 			return (!free_origin(origin));
 		else if (cur->type == SOURCE

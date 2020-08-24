@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/12 15:58:14 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/07 19:53:03 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 12:46:52 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_list			*parsing(t_list **lines, size_t *size, int *ants)
 	if ((*ants = ft_atoi(line)) <= 0 || !is_valid(ft_itoa(*ants), line)
 	|| !(*lines = ft_lstnew(line)))
 		free(line);
-	else if (!(*size = parse_rooms(&origin, *lines)))
+	else if (!(*size = parse_rooms(&origin, *lines, NULL, NULL)))
 	{
 		ft_lstdel(lines, free);
 		ft_lstdel(&origin, del_room);

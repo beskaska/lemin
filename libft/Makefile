@@ -6,7 +6,7 @@
 #    By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 21:18:08 by aimelda           #+#    #+#              #
-#    Updated: 2020/07/20 13:44:21 by aimelda          ###   ########.fr        #
+#    Updated: 2020/08/24 15:10:42 by aimelda          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,16 @@ NAME	=	libft.a
 
 HDR		=	libft.h
 
-SRC		=	ft_memset.c			\
+SRC		=	ft_memalloc.c		\
+			ft_memset.c			\
 			ft_bzero.c			\
 			ft_memcpy.c			\
 			ft_memccpy.c		\
 			ft_memmove.c		\
 			ft_memchr.c			\
 			ft_memcmp.c			\
+			ft_memdel.c			\
+			ft_strnew.c			\
 			ft_strlen.c			\
 			ft_strdup.c			\
 			ft_strcpy.c			\
@@ -75,6 +78,7 @@ SRC		=	ft_memset.c			\
 			ft_isspace.c		\
 			ft_sqrt.c			\
 			ft_swap.c			\
+			ft_realloc.c		\
 			get_next_line.c		\
 
 OBJ		=	$(SRC:.c=.o)

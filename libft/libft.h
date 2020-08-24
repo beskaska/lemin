@@ -6,14 +6,13 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 22:44:45 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 14:00:10 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/24 15:10:30 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# define MAX_LL 9223372036854775807
 # define BUFF_SIZE 1000
 
 # include <string.h>
@@ -33,6 +32,7 @@ typedef struct	s_fd
 	int			fd;
 }				t_fd;
 
+void			*ft_memalloc(size_t size);
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
@@ -40,6 +40,8 @@ void			*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void			*ft_memmove(void *dst, const void *src, size_t len);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
+void			ft_memdel(void **ap);
+char			*ft_strnew(size_t size);
 size_t			ft_strlen(const char *s);
 char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strdup(const char *s1);
@@ -99,6 +101,7 @@ size_t			ft_min(size_t n1, size_t n2);
 int				ft_isspace(int c);
 double			ft_sqrt(double n, double precision);
 void			ft_swap(void *a, void *b, size_t size);
+void			*ft_realloc(void *ptr, size_t new_size, size_t old_size);
 
 int				get_next_line(const int fd, char **line);
 

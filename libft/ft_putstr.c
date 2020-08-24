@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 17:30:15 by aimelda           #+#    #+#             */
-/*   Updated: 2019/09/13 18:49:40 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 19:56:19 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,5 @@
 void	ft_putstr(char const *s)
 {
 	if (s)
-		while (*s != '\0')
-			ft_putchar(*s++);
+		write(1, s, ft_strlen(s));
 }

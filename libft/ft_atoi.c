@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/10 15:14:37 by aimelda           #+#    #+#             */
-/*   Updated: 2020/06/22 16:44:08 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 13:48:22 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int			ft_atoi(const char *str)
 	sign = det_sign(&str);
 	while (ft_isdigit(*str))
 	{
-		if (res * 10 + *str - '0' > MAX_LL)
+		if (res > INT64_MAX / 10
+		|| (res == INT64_MAX / 10 && *str - '0' > INT64_MAX % 10))
 		{
 			if (sign == 1)
 				return (-1);

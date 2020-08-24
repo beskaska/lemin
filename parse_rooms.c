@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 18:59:35 by aimelda           #+#    #+#             */
-/*   Updated: 2020/08/22 16:35:57 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 12:48:26 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,12 @@ static t_list	*set_border_room(t_list **origin, t_list **lines,
 	return (*origin);
 }
 
-int				parse_rooms(t_list **origin, t_list *lines)
+int				parse_rooms(t_list **origin, t_list *lines,
+					t_list *start_room, t_list *end_room)
 {
-	t_list	*start_room;
-	t_list	*end_room;
 	char	*line;
 	int		size;
 
-	line = NULL;
-	start_room = NULL;
-	end_room = NULL;
 	size = 0;
 	while (get_next_line(STDIN_FILENO, &line) > 0)
 	{
@@ -98,10 +94,10 @@ int				parse_rooms(t_list **origin, t_list *lines)
 			return (0);
 		if (line[0] != '#')
 		{
-			if (line[0] == 'L' || !set_new_room(origin, line, ++size, INTERMEDIATE))
+			if (line[0] == 'L' || !set_new_room(origin, line, ++size, MEDIUM))
 				return (0);
 			if (!is_valid_room(origin, line))
-				break ; //return parse_links
+				break ;
 		}
 		else if ((ft_strcmp(START_ROOM, line) == 0 && (start_room
 		|| !(start_room = set_border_room(origin, &lines, line, SOURCE))))

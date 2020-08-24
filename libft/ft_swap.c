@@ -6,7 +6,7 @@
 /*   By: aimelda <aimelda@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 13:41:18 by aimelda           #+#    #+#             */
-/*   Updated: 2020/07/20 14:03:27 by aimelda          ###   ########.fr       */
+/*   Updated: 2020/08/23 13:53:45 by aimelda          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_swap(void *a, void *b, size_t size)
 	size_t			i;
 
 	ptr1 = a;
-	ptr2 = b;	
+	ptr2 = b;
 	i = 0;
 	while (i < size)
 	{
